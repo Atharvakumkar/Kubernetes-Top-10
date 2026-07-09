@@ -5,6 +5,73 @@ It is the brain of the Kubernetes cluster. It is responsible for managing the en
 Every action performed in Kubernetes such as creating Pod, scaling an application or deleting a deployment is coordinated through the Control Plane.
 
 ### Main components of Control Plane:
+
+### Node:
+
+A Node is a physical or virtual machine that is part of a Kubernetes cluster.
+
+Nodes provide the computing resources required to run applications.
+
+#### Each node contains: <br>
+
+• Kubelet <br>
+• Container Runtime <br>
+• Kube Proxy (in most kubernetes setups) <br>
+
+#### Responsibilties: <br>
+
+• Execute Pods <br>
+• Provide CPU, memory and storage <br>
+• Communicate with control plane <br>
+• Report health status <br>
+
+### Kubelet:
+
+Kubelet is an agent that runs on every Worker Node.
+
+It continuously communicates with the API Server to determine which Pods should be running on its node.
+
+If the Scheduler assigns a Pod to a Worker Node, the Kubelet receives the instructions and ensures the Pod is created and remains healthy.
+
+#### Responsibilites:
+• Registers the node with the Control Plane <br>
+• Starts containers <br>
+• Monitors Pod health <br>
+• Reports node and Pod status <br>
+• Restarts failed containers if necessary <br>
+
+Kubelet does not decide where Pods should run. That responsibility belongs to the Scheduler.
+
+### Worker Node:
+A Worker Node is the machine where the application workloads actually run.
+
+Unlike the Control Plane, which manages the cluster, Worker Nodes execute containers and consume most of the cluster's computing resources.
+
+Production Kubernetes clusters typically have many Worker Nodes, each equipped with substantial CPU, memory, and storage to handle application workloads.
+
+#### A Worker Node usually contains:
+
+• Kubelet <br>
+• Container Runtime (such as containerd or CRI-O) <br>
+• Kube Proxy <br>
+• Running Pods <br>
+
+#### Characteristics:
+
+• Handles application workloads <br>
+• Uses significantly more CPU and memory than the Control Plane <br>
+• Can run hundreds of Pods depending on available resources <br>
+• Scales horizontally by adding more Worker Nodes to the cluster <br>
+
+#### Example: 
+In an e-commerce application: <br>
+
+• The Control Plane decides where Pods should run <br>
+• Worker Node 1 runs the frontend Pods <br>
+• Worker Node 2 runs the backend API Pods <br>
+• Worker Node 3 runs the database Pods <br>
+• Kubelets on each Worker Node ensure those Pods remain healthy and running <br>
+
 ### API Server: 
 The API Server is the central communication hub of Kubernetes and acts as the entry point to the cluster. Every request made to Kubernetes, whether from a user, the kubectl command-line tool, automation scripts, or other Kubernetes components, first goes to the API Server. <br>
 
@@ -142,71 +209,4 @@ Unlike traditional networking, Kubernetes assumes that every Pod can communicate
 
 #### Example:
 A frontend Pod running on Worker Node 1 can communicate directly with a backend Pod running on Worker Node 3 through the Kubernetes virtual network without needing to know the physical network topology.
-
-### Node:
-
-A Node is a physical or virtual machine that is part of a Kubernetes cluster.
-
-Nodes provide the computing resources required to run applications.
-
-#### Each node contains: <br>
-
-• Kubelet <br>
-• Container Runtime <br>
-• Kube Proxy (in most kubernetes setups) <br>
-
-#### Responsibilties: <br>
-
-• Execute Pods <br>
-• Provide CPU, memory and storage <br>
-• Communicate with control plane <br>
-• Report health status <br>
-
-### Kubelet:
-
-Kubelet is an agent that runs on every Worker Node.
-
-It continuously communicates with the API Server to determine which Pods should be running on its node.
-
-If the Scheduler assigns a Pod to a Worker Node, the Kubelet receives the instructions and ensures the Pod is created and remains healthy.
-
-#### Responsibilites:
-• Registers the node with the Control Plane <br>
-• Starts containers <br>
-• Monitors Pod health <br>
-• Reports node and Pod status <br>
-• Restarts failed containers if necessary <br>
-
-Kubelet does not decide where Pods should run. That responsibility belongs to the Scheduler.
-
-### Worker Node:
-A Worker Node is the machine where the application workloads actually run.
-
-Unlike the Control Plane, which manages the cluster, Worker Nodes execute containers and consume most of the cluster's computing resources.
-
-Production Kubernetes clusters typically have many Worker Nodes, each equipped with substantial CPU, memory, and storage to handle application workloads.
-
-#### A Worker Node usually contains:
-
-• Kubelet <br>
-• Container Runtime (such as containerd or CRI-O) <br>
-• Kube Proxy <br>
-• Running Pods <br>
-
-#### Characteristics:
-
-• Handles application workloads <br>
-• Uses significantly more CPU and memory than the Control Plane <br>
-• Can run hundreds of Pods depending on available resources <br>
-• Scales horizontally by adding more Worker Nodes to the cluster <br>
-
-#### Example: 
-In an e-commerce application: <br>
-
-• The Control Plane decides where Pods should run <br>
-• Worker Node 1 runs the frontend Pods <br>
-• Worker Node 2 runs the backend API Pods <br>
-• Worker Node 3 runs the database Pods <br>
-• Kubelets on each Worker Node ensure those Pods remain healthy and running <br>
-
 
