@@ -225,10 +225,174 @@ The Ingress receives the user's request, forwards it to the correct Service, and
 
 ---
 
-## Summary
+# ConfigMap and Secret
 
-- A **Node** is a physical or virtual machine that provides the resources required to run applications.
-- A **Pod** is the smallest deployable unit in Kubernetes and acts as an abstraction over one or more containers.
-- Pods are **ephemeral**, meaning they can be recreated at any time and receive a new IP address.
-- A **Service** provides a permanent IP address and DNS name, allowing applications to communicate with Pods without worrying about changing Pod IP addresses.
-- An **Ingress** acts as the gateway into the Kubernetes cluster, routing external HTTP and HTTPS traffic to the appropriate Services.
+Applications running inside Kubernetes often require configuration data such as database URLs, API endpoints, environment variables, or credentials. Instead of hardcoding these values inside the application or container image, Kubernetes provides **ConfigMaps** and **Secrets** to manage configuration separately from the application.
+
+This separation makes applications more portable, secure, and easier to manage across different environments.
+
+## ConfigMap
+
+A ConfigMap is a Kubernetes object used to store **non-sensitive configuration data** outside of an application.
+
+Instead of embedding configuration values inside the application code or Docker image, they are stored in a ConfigMap and provided to the application when it runs.
+
+This allows the same application image to be deployed in different environments (development, testing, production) using different configurations without rebuilding the image.
+
+### Common Uses of ConfigMap
+
+- Database host names
+- API endpoints
+- Environment variables
+- Application configuration files
+- Feature flags
+- Logging configurations
+
+### Advantages
+
+- Separates configuration from application code
+- Allows configuration changes without rebuilding container images
+- Makes applications portable across different environments
+- Simplifies application management
+
+### Example
+
+Suppose an application needs to connect to a database.
+
+Instead of hardcoding:
+
+```
+Database URL = database.company.com
+```
+
+inside the application, this value is stored in a ConfigMap.
+
+If the application is later deployed to another environment where the database URL changes, only the ConfigMap needs to be updated. The application code remains unchanged.
+
+### Important Commands
+
+Create a ConfigMap:
+
+```
+kubectl create configmap <configmap-name> --from-literal=KEY=VALUE
+```
+
+View ConfigMaps:
+
+```
+kubectl get configmaps
+```
+
+Describe a ConfigMap:
+
+```
+kubectl describe configmap <configmap-name>
+```
+
+---
+
+## Secret
+
+A Secret is a Kubernetes object used to store **sensitive information** securely.
+
+Sensitive information includes:
+
+- Passwords
+- API Keys
+- Database credentials
+- Authentication tokens
+- TLS certificates
+- SSH keys
+
+Secrets help prevent sensitive data from being exposed directly inside application code or configuration files.
+
+### How Secrets are Stored
+
+By default, Kubernetes stores Secret values as **Base64-encoded data**.
+
+It is important to understand that **Base64 is not encryption**. It is simply an encoding format that converts data into a readable string.
+
+Because Base64 can be easily decoded, production Kubernetes clusters should enable **encryption at rest** for etcd to protect Secret data.
+
+### Why Additional Encryption is Needed
+
+Without encryption at rest:
+
+- Anyone with access to etcd can decode the Secret values.
+- Sensitive information can be exposed.
+- Cluster security is compromised.
+
+For production environments, Kubernetes administrators should configure encryption for Secret data stored in etcd.
+
+### Advantages
+
+- Keeps sensitive information separate from application code
+- Prevents passwords from being stored inside container images
+- Allows credentials to be updated without rebuilding applications
+- Provides better security than embedding credentials directly into code
+
+### Referencing Secrets
+
+Secrets are typically referenced inside a Deployment or Pod.
+
+Applications can consume Secret data as:
+
+- Environment variables
+- Mounted files inside a volume
+
+This allows applications to access sensitive information securely at runtime without storing it in the application itself.
+
+### Example
+
+Suppose an application needs to connect to a database.
+
+Instead of writing:
+
+```
+Username = admin
+Password = mypassword123
+```
+
+inside the application code, these credentials are stored in a Secret.
+
+When the Pod starts, Kubernetes provides the Secret to the application, allowing it to authenticate without exposing the credentials in the container image.
+
+### Important Commands
+
+Create a Secret:
+
+```
+kubectl create secret generic <secret-name> --from-literal=KEY=VALUE
+```
+
+View Secrets:
+
+```
+kubectl get secrets
+```
+
+Describe a Secret:
+
+```
+kubectl describe secret <secret-name>
+```
+
+View the encoded Secret:
+
+```
+kubectl get secret <secret-name> -o yaml
+```
+
+---
+
+## ConfigMap vs Secret
+
+| ConfigMap | Secret |
+|------------|--------|
+| Stores non-sensitive configuration | Stores sensitive information |
+| Data is stored as plain text | Data is Base64 encoded |
+| Used for application configuration | Used for passwords, API keys, certificates, and credentials |
+| No special security by default | Should be protected with encryption at rest |
+| Referenced by Pods or Deployments | Referenced by Pods or Deployments |
+
+---
