@@ -1,40 +1,14 @@
-Kubernetes OWASP Top 10 Security Lab
+# Kubernetes OWASP Top 10 Security Lab
 
-Hands-on Kubernetes Security Learning Repository
+## Hands-on Kubernetes Security Learning Repository
 
-Kubernetes OWASP Top 10 Security Lab is a practical learning repository that demonstrates the OWASP Kubernetes Top 10 (2025) security risks through vulnerable deployments, attack demonstrations, remediation techniques, architecture diagrams, flowcharts, and production hardening practices.
+Kubernetes OWASP Top 10 Security Lab is a practical learning repository that demonstrates the **OWASP Kubernetes Top 10 (2025)** security risks through vulnerable deployments, attack demonstrations, remediation techniques, architecture diagrams, flowcharts, and production hardening practices.
 
 The repository was created to help understand how Kubernetes misconfigurations can be exploited and how to secure clusters using industry best practices through hands-on implementation.
 
 ---
 
-Infrastructure Overview
-
-                           ┌──────────────────────┐
-                           │      Developer       │
-                           │ kubectl / YAML Files │
-                           └──────────┬───────────┘
-                                      │
-                                      ▼
-                           ┌──────────────────────┐
-                           │ Kubernetes API Server│
-                           └──────────┬───────────┘
-                                      │
-                 ┌────────────────────┼────────────────────┐
-                 │                    │                    │
-                 ▼                    ▼                    ▼
-        ┌───────────────┐    ┌───────────────┐    ┌───────────────┐
-        │ Vulnerable    │    │ Hardened      │    │ Security      │
-        │ Deployments   │    │ Deployments   │    │ Verification  │
-        └───────────────┘    └───────────────┘    └───────────────┘
-                 │                    │                    │
-                 └────────────────────┼────────────────────┘
-                                      ▼
-                           Kubernetes Cluster (Kind)
-
----
-
-Repository Features
+# Repository Features
 
 - Complete coverage of the OWASP Kubernetes Top 10 (2025)
 - Step-by-step vulnerable Kubernetes deployments
@@ -48,22 +22,22 @@ Repository Features
 
 ---
 
-Security Topics Covered
+# Security Topics Covered
 
-- K01 – Insecure Workload Configurations
-- K02 – Overly Permissive Authorization Configurations
-- K03 – Secrets Management Failures
-- K04 – Lack of Cluster-Level Policy Enforcement
-- K05 – Missing Network Segmentation Controls
-- K06 – Overly Exposed Kubernetes APIs
-- K07 – Weak or Inadequate Authentication
-- K08 – Supply Chain Vulnerabilities
-- K09 – Resource Exhaustion
-- K10 – Inadequate Logging and Monitoring
+- **K01** – Insecure Workload Configurations
+- **K02** – Overly Permissive Authorization Configurations
+- **K03** – Secrets Management Failures
+- **K04** – Lack of Cluster-Level Policy Enforcement
+- **K05** – Missing Network Segmentation Controls
+- **K06** – Overly Exposed Kubernetes APIs
+- **K07** – Weak or Inadequate Authentication
+- **K08** – Supply Chain Vulnerabilities
+- **K09** – Resource Exhaustion
+- **K10** – Inadequate Logging and Monitoring
 
 ---
 
-Documentation Features
+# Documentation Features
 
 Each security topic includes:
 
@@ -81,9 +55,9 @@ Each security topic includes:
 
 ---
 
-Technology Stack
+# Technology Stack
 
-Container Platform
+## Container Platform
 
 - Kubernetes
 - Kind (Kubernetes in Docker)
@@ -91,7 +65,7 @@ Container Platform
 
 ---
 
-Security
+## Security
 
 - OWASP Kubernetes Top 10 (2025)
 - Kubernetes RBAC
@@ -103,7 +77,7 @@ Security
 
 ---
 
-Infrastructure
+## Infrastructure
 
 - Docker
 - YAML Manifests
@@ -112,7 +86,7 @@ Infrastructure
 
 ---
 
-Documentation
+## Documentation
 
 - Markdown
 - Architecture Diagrams
@@ -121,8 +95,9 @@ Documentation
 
 ---
 
-Repository Structure
+# Repository Structure
 
+```text
 Kubernetes-Top-10/
 │
 ├── K01.md
@@ -147,36 +122,37 @@ Kubernetes-Top-10/
 ├── K8s_Architecture_Diagram.png
 ├── K8s_Flow_Diagram.png
 └── K8s_Flow_Diagram2.png
+```
 
 ---
 
-Getting Started
+# Getting Started
 
-Clone Repository
+## Clone Repository
 
-git clone https://github.com/<your-username>/Kubernetes-Top-10.git
+```bash
+git clone https://github.com/Atharvakumkar/Kubernetes-Top-10.git
 
 cd Kubernetes-Top-10
+```
 
 ---
 
-Create Local Kubernetes Cluster
+## Create Local Kubernetes Cluster
 
+```bash
 kind create cluster --config kind-config.yaml
+```
 
 Verify the cluster:
 
+```bash
 kubectl get nodes
+```
 
 ---
 
-Start Learning
-
-Open any of the documentation files from K01.md to K10.md and follow the guided walkthrough. Each module demonstrates the vulnerable configuration, explains the attack scenario, and concludes with the hardened implementation and verification steps.
-
----
-
-Production Readiness Checklist
+# Production Readiness Checklist
 
 The repository also contains a Kubernetes production readiness checklist covering:
 
@@ -196,13 +172,13 @@ The repository also contains a Kubernetes production readiness checklist coverin
 
 ---
 
-Author
+# Author
 
-Atharva Kumkar
+**Atharva Kumkar**
 
 ---
 
-License
+# License
 
 This repository is intended for educational and research purposes to promote secure Kubernetes practices.
 
